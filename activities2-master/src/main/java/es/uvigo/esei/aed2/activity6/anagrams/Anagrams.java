@@ -1,7 +1,12 @@
 package es.uvigo.esei.aed2.activity6.anagrams;
 
+import es.uvigo.esei.aed2.map.HashMap;
+import es.uvigo.esei.aed2.map.Map;
+import java.util.Arrays;
+//import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+//import java.util.Map;
 import java.util.Set;
 
 /*-
@@ -30,12 +35,81 @@ import java.util.Set;
  * THE SOFTWARE.
  * #L%
  */
-
+/////////////// clase con TAD actividad6
 public class Anagrams {
 
-  public static Set<Set<String>> getAnagrams(List<String> words) {
-    // TODO: Implementa la obtención de los conjuntos de anagramas a partir de la agrupación
-    return null;
-  }
+    public static Set<Set<String>> getAnagrams(List<String> words) {
+        Map<String, Set<String>> mapAnagramas = llenarMapa(words);
 
+        Set<Set<String>> resultado = new HashSet<>();
+        
+        // Obtener las claves y luego los valores
+        Set<String> claves = mapAnagramas.getKeys();
+        for (String clave : claves) {
+            Set<String> conjunto = mapAnagramas.get(clave);
+            resultado.add(conjunto);
+        }
+        return resultado;
+    }
+
+    private static String ordenarPalabra(String palabra) {
+        char[] letras = palabra.toCharArray();
+        Arrays.sort(letras);
+        return new String(letras);
+    }
+
+    private static Map<String, Set<String>> llenarMapa(List<String> words) {
+        Map<String, Set<String>> mapa = new HashMap<>();
+
+        for (String word : words) {
+            String key = ordenarPalabra(word);
+            Set<String> setValues = mapa.get(key);
+
+            if (setValues == null) {
+                setValues = new HashSet<>();
+                mapa.add(key, setValues);
+            }
+            setValues.add(word);
+        }
+        return mapa;
+    }
 }
+
+/////////////////// clase con TAD de java//////////////
+//public class Anagrams {
+//
+//    public static Set<Set<String>> getAnagrams(List<String> words) {
+//        // TODO: Implementa la obtención de los conjuntos de anagramas a partir de la agrupación
+//        Map<String, Set<String>> mapAnagramas = llenarMapa(words);
+//
+//        Set<Set<String>> resultado = new HashSet<>();
+//        for (Set<String> conjunto : mapAnagramas.values()) {
+//            resultado.add(conjunto);
+//        }
+//        return resultado;
+//    }
+//
+//    private static String ordenarPalabra(String palabra) {
+//        char[] letras = palabra.toCharArray();
+//        Arrays.sort(letras);
+//
+//        return new String(letras);
+//    }
+//
+//    private static Map<String, Set<String>> llenarMapa(List<String> words) {
+//        Map<String, Set<String>> mapa = new HashMap<>();
+//
+//        for (String word : words) {
+//            String key = ordenarPalabra(word);
+//            Set<String> setValues = mapa.get(key);
+//
+//            if (setValues == null) {
+//                setValues = new HashSet<>();
+//                mapa.put(key, setValues);
+//            }
+//            setValues.add(word);
+//        }
+//        return mapa;
+//    }
+//
+//}
